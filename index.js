@@ -51,6 +51,8 @@ const modulesDev = [
   "dotenv",
   "eslint-config-prettier",
   "eslint-plugin-prettier",
+  "@typescript-eslint/parser",
+  "@typescript-eslint/eslint-plugin"
 ];
 
 const install = require("spawn-npm-install");

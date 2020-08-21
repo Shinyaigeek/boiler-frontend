@@ -1,6 +1,6 @@
 {
   "name": "boiler-frontend-shinyaigeek",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "bin": "index.js",
   "author": "<PhilisPaxil@gmail.com>",
   "license": "MIT",
