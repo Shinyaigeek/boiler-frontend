@@ -1,0 +1,14 @@
+{
+    "modules": [
+      "react-dom",
+      "react",
+      "next",
+      "firebase",
+      "swr",
+      "next-auth"
+    ],
+    "modulesDev": [
+        "typescript"
+    ]
+  }
+  

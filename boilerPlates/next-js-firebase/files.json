@@ -1,0 +1,13 @@
+{
+    "folders": [
+        "pages",
+        "components"
+    ],
+    "files": [
+        "package.json",
+        "tsconfig.json",
+        ".gitignore",
+        "next.config.js",
+        ".firebase.env.example"
+    ]
+}
