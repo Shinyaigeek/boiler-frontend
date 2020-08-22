@@ -1,69 +1,52 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { spawn } = require("child_process");
+const assert = require("assert");
 
-fs.copy(path.join(__dirname, "./fe/src"), "./src").catch((e) => {
-  throw new Error(e);
-});
+const { install } = require("npm-yarn-runtime-installer")
 
-fs.copy(
-  path.join(__dirname, "./fe/webpack.config.js"),
-  "./webpack.config.js"
-).catch((e) => {
-  throw new Error(e);
-});
+const { program } = require("commander");
 
-fs.copy(path.join(__dirname, "./fe/tsconfig.json"), "./tsconfig.json").catch(
-  (e) => {
+program.option("-b --boiler <type>", "fe");
+
+program.parse(process.argv);
+
+const { boiler } = program;
+
+assert(boiler);
+
+if (typeof boiler !== "string") {
+  throw new Error("boiler must be string value");
+}
+
+const boilerPath = `./boilerPlates/${boiler}`;
+
+const rawModules = fs.readFileSync(path.join(__dirname, `${boilerPath}/modules.json`), "utf-8")
+const rawFiles = fs.readFileSync(path.join(__dirname, `${boilerPath}/files.json`), "utf-8")
+
+const modules = JSON.parse(rawModules);
+const files = JSON.parse(rawFiles)
+
+const copyFile = (file) => {
+  fs.copy(path.join(__dirname, `${boilerPath}/${file}`), `./${file}`).catch((e) => {
     throw new Error(e);
-  }
-);
+  });
+}
 
-const modules = [
-  "react-dom",
-  "react",
-  "@types/react",
-  "@types/react-dom",
-  "ts-loader",
-  "babel-loader",
-  "html-webpack-plugin",
-  "react-router-dom",
-  "mini-css-extract-plugin",
-  "react-router-dom",
-  "@types/react-router-dom",
-];
+files.files.forEach(file => {
+  copyFile(file)
+})
 
-const modulesDev = [
-  "typescript",
-  "prettier",
-  "eslint",
-  "eslint-plugin-import",
-  "eslint-plugin-jsx-a11y",
-  "eslint-plugin-react",
-  "eslint-plugin-react-hooks",
-  "@types/jest",
-  "@babel/preset-env",
-  "jest",
-  "ts-jest",
-  "webpack",
-  "webpack-cli",
-  "webpack-dev-server",
-  "dotenv",
-  "eslint-config-prettier",
-  "eslint-plugin-prettier",
-  "@typescript-eslint/parser",
-  "@typescript-eslint/eslint-plugin"
-];
+files.folders.forEach(folder => {
+  copyFile(folder)
+})
 
-const install = require("spawn-npm-install");
+const numberOfModule = modules.modules.length + modules.modulesDev.length;
 
-install(modules, { saveDev: false }, function (err) {
-  if (err) console.error("Could not install:\n" + err.message);
-  else {
-    console.log("Modules are Installed.");
-    install(modulesDev, { saveDev: true }, (err2) => {
-      if (err2) console.error("cloud not install");
-      else console.log("done");
-    });
-  }
-});
+const proc = install(modules.modules, false, "yarn")
+
+proc.on("exit", () => {
+  const procDev = install(modules.modulesDev, true, "yarn");
+  procDev.on("exit", () => {
+    console.log("done")
+  })
+})
