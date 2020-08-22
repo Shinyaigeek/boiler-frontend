@@ -1,0 +1,36 @@
+{
+  "modules": [
+    "react-dom",
+    "react",
+    "@types/react",
+    "@types/react-dom",
+    "ts-loader",
+    "babel-loader",
+    "html-webpack-plugin",
+    "react-router-dom",
+    "mini-css-extract-plugin",
+    "react-router-dom",
+    "@types/react-router-dom"
+  ],
+  "modulesDev": [
+    "typescript",
+    "prettier",
+    "eslint",
+    "eslint-plugin-import",
+    "eslint-plugin-jsx-a11y",
+    "eslint-plugin-react",
+    "eslint-plugin-react-hooks",
+    "@types/jest",
+    "@babel/preset-env",
+    "jest",
+    "ts-jest",
+    "webpack",
+    "webpack-cli",
+    "webpack-dev-server",
+    "dotenv",
+    "eslint-config-prettier",
+    "eslint-plugin-prettier",
+    "@typescript-eslint/parser",
+    "@typescript-eslint/eslint-plugin"
+  ]
+}

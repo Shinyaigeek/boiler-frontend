@@ -1,0 +1,11 @@
+{
+    "folders": [
+        "src"
+    ],
+    "files": [
+        ".eslintrc.json",
+        "package.json",
+        "tsconfig.json",
+        "webpack.config.js"
+    ]
+}
